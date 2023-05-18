@@ -31,6 +31,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                         onValueChange = { username = it },
                         label = { Text(text = "Username") },
                         modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
@@ -39,6 +40,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                         visualTransformation = PasswordVisualTransformation(),
                         label = { Text(text = "Password") },
                         modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(

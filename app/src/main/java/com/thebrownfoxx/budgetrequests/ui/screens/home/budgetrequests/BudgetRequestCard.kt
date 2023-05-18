@@ -12,10 +12,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.BudgetRequest
+import com.thebrownfoxx.budgetrequests.data.formattedMonetaryAmount
 import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
-import java.text.NumberFormat
 
 @Composable
 fun BudgetRequestCard(
@@ -48,7 +48,7 @@ fun BudgetRequestCard(
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                InfoChip(text = NumberFormat.getCurrencyInstance().format(budgetRequest.amount))
+                InfoChip(text = budgetRequest.amount.formattedMonetaryAmount)
             }
         }
     }

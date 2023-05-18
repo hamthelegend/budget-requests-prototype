@@ -5,13 +5,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.CreateRequest
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomeScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.login.LoginScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Container() {
-    var lastScreen by remember { mutableStateOf<Screen?>(null) }
     var screen by remember { mutableStateOf(Screen.Login) }
     val density = LocalDensity.current
 
@@ -23,7 +23,11 @@ fun Container() {
     ) {
         when (it) {
             Screen.Login -> LoginScreen(onLogin = { screen = Screen.Home })
-            Screen.Home -> HomeScreen(onLogout = { screen = Screen.Login })
+            Screen.Home -> HomeScreen(
+                onLogout = { screen = Screen.Login },
+                onCreateRequest = { screen = Screen.CreateRequest },
+            )
+            Screen.CreateRequest -> CreateRequest(onClose = { screen = Screen.Home })
         }
     }
 }

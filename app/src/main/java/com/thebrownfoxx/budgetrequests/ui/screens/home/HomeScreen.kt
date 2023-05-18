@@ -20,6 +20,7 @@ import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBarButton
 
 @Composable
 fun HomeScreen(
+    onCreateRequest: () -> Unit,
     onLogout: () -> Unit,
 ) {
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
@@ -32,7 +33,7 @@ fun HomeScreen(
                 PrimaryButton(
                     icon = Icons.Default.Create,
                     text = "Create Request",
-                    onClick = { /*TODO*/ },
+                    onClick = onCreateRequest,
                     modifier = Modifier.padding(start = 16.dp).fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -63,6 +64,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     BudgetRequestsTheme {
-        HomeScreen(onLogout = {})
+        HomeScreen(onLogout = {}, onCreateRequest = {})
     }
 }

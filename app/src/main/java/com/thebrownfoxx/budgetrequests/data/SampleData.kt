@@ -1,15 +1,26 @@
 package com.thebrownfoxx.budgetrequests.data
 
+import java.text.NumberFormat
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-private fun generatedRandomMonetaryAmount() =
+val Double.formattedMonetaryAmount: String
+    get() = "₱ ${NumberFormat.getNumberInstance().format(this)}"
+
+fun generateRandomMonetaryAmount() =
     (Random.nextDouble(1_000.00, 1_000_000.00) * 100.0).roundToInt().toDouble() / 100.0
 
-val sampleBudgetRequest =
-    BudgetRequest(
+val sampleExpense
+    get() = Expense(
+        purpose = listOf("Winner Prize", "Bidet Fee", "Corruption").random(),
+        amount = generateRandomMonetaryAmount(),
+    )
+
+val sampleBudgetRequest
+    get() = BudgetRequest(
         title = "U-fucking-week",
-        body = """
+        body =
+        """
                     The Institute of Electronics Engineers of the Philippines – AUF Student Chapter has organized
                     a Webinar this School Year and Outgoing Ceremony to be held on April 30, 2022. Additionally,
                     an amount of ₱1,000 will also be collected by the parent organization with regards to the
@@ -17,14 +28,32 @@ val sampleBudgetRequest =
                     Engineers of the Philippines (IECEP). In line with this, the Institute of Electronics Engineers
                     of the Philippines – AUF Student Chapter Officers would like to humbly request for the
                     release of budget from the College of Engineering and Architecture Funds amounting to Five
-                    Thousand Pesos (PhP 5,000.00).
-                """.trimIndent().replace('\n', ' '),
-        organization = "Jericho's Cult",
-        amount = generatedRandomMonetaryAmount(),
+                    Thousand Pesos (PhP 5,000.00).    
+                """.trimIndent().trimIndent().replace('\n', ' '),
+        organization = sampleOrganizations.random(),
+        expenses = Array(3) { sampleExpense }.toList(),
+        signatories = listOf(
+            Signatory(
+                name = "Herb Ert",
+                role = "Follower of the Above",
+                hasSigned = true,
+                hasReceivedRequest = true,
+            ),
+            Signatory(
+                name = "Ru El",
+                role = "The Above",
+                hasSigned = false,
+                hasReceivedRequest = true,
+            ),
+            Signatory(
+                name = "Jus Tine",
+                role = "Ruler of them all",
+                hasSigned = false,
+                hasReceivedRequest = false,
+            ),
+        ),
     )
 
-val sampleBudgetRequests = Array(20) {
-    sampleBudgetRequest.copy(
-        amount = generatedRandomMonetaryAmount(),
-    )
-}.toList()
+val sampleBudgetRequests get() = Array(20) { sampleBudgetRequest }.toList()
+
+val sampleOrganizations = listOf("ICPEP", "IECEP", "Jericho's Cult")
