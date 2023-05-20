@@ -3,20 +3,13 @@ package com.thebrownfoxx.budgetrequests.ui.screens.createrequest
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Chip
-import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,11 +26,11 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 @Composable
 fun ExpenseChip(
     expense: Expense,
-    onDelete: () -> Unit,
     modifier: Modifier = Modifier,
+    onDelete: (() -> Unit)? = null,
 ) {
     OutlinedButton (
-        onClick = onDelete,
+        onClick = onDelete ?: {},
         shape = CircleShape,
         modifier = modifier,
     ) {
@@ -45,12 +38,14 @@ fun ExpenseChip(
             Text(text = expense.purpose)
             Spacer(modifier = Modifier.weight(1f))
             Text(text = expense.amount.formattedMonetaryAmount)
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Remove icon",
-                modifier = Modifier.size(16.dp)
-            )
+            if (onDelete != null) {
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Remove icon",
+                    modifier = Modifier.size(16.dp)
+                )
+            }
         }
     }
 }

@@ -4,4 +4,5 @@ enum class Screen {
     Login,
     Home,
     CreateRequest,
+    BudgetRequest,
 }

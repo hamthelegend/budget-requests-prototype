@@ -18,7 +18,7 @@ val sampleExpense
 
 val sampleBudgetRequest
     get() = BudgetRequest(
-        title = "U-fucking-week",
+        title = listOf("U-fucking-week", "Furry Festival").random(),
         body =
         """
                     The Institute of Electronics Engineers of the Philippines – AUF Student Chapter has organized
@@ -30,8 +30,9 @@ val sampleBudgetRequest
                     release of budget from the College of Engineering and Architecture Funds amounting to Five
                     Thousand Pesos (PhP 5,000.00).    
                 """.trimIndent().trimIndent().replace('\n', ' '),
-        organization = sampleOrganizations.random(),
+        requester = sampleOrganizations.random(),
         expenses = Array(3) { sampleExpense }.toList(),
+        author = listOf("Jericho Diaz", "Justine Manalansan", "Brian").random(),
         signatories = listOf(
             Signatory(
                 name = "Herb Ert",
@@ -40,8 +41,14 @@ val sampleBudgetRequest
                 hasReceivedRequest = true,
             ),
             Signatory(
+                name = "Mar Io",
+                role = "The Kind Above",
+                hasSigned = false,
+                hasReceivedRequest = true,
+            ),
+            Signatory(
                 name = "Ru El",
-                role = "The Above",
+                role = "The Above!!!",
                 hasSigned = false,
                 hasReceivedRequest = true,
             ),

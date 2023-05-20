@@ -15,13 +15,14 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 @Composable
 fun BudgetRequests(
     budgetRequests: List<BudgetRequest>,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
     LazyColumn(modifier = modifier.padding(horizontal = paddingValues.calculateStartPadding(LayoutDirection.Rtl))) {
         itemsIndexed(budgetRequests) { index, budgetRequest ->
             Spacer(modifier = Modifier.height(if (index == 0) paddingValues.calculateTopPadding() else 16.dp))
-            BudgetRequestCard(budgetRequest)
+            BudgetRequestCard(budgetRequest = budgetRequest, onClick = onClick)
             if (index == budgetRequests.lastIndex) Spacer(modifier = Modifier.height(paddingValues.calculateBottomPadding()))
         }
     }
@@ -31,6 +32,6 @@ fun BudgetRequests(
 @Composable
 fun BudgetRequestsPreview() {
     BudgetRequestsTheme {
-        BudgetRequests(budgetRequests = sampleBudgetRequests)
+        BudgetRequests(budgetRequests = sampleBudgetRequests, onClick = {})
     }
 }

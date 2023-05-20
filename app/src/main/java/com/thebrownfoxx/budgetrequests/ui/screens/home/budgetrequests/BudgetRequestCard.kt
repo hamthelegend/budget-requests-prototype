@@ -2,6 +2,7 @@ package com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,12 +18,17 @@ import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BudgetRequestCard(
     budgetRequest: BudgetRequest,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(modifier = modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
         Column(modifier = Modifier.padding(32.dp)) {
             Text(
                 text = budgetRequest.title,
@@ -40,11 +46,11 @@ fun BudgetRequestCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 ProfileIcon(
-                    text = budgetRequest.organization.first().toString(),
+                    text = budgetRequest.requester.first().toString(),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = budgetRequest.organization,
+                    text = budgetRequest.requester,
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Spacer(modifier = Modifier.weight(1f))
@@ -58,6 +64,6 @@ fun BudgetRequestCard(
 @Composable
 fun BudgetRequestCardPreview() {
     BudgetRequestsTheme {
-        BudgetRequestCard(sampleBudgetRequest)
+        BudgetRequestCard(budgetRequest = sampleBudgetRequest, onClick = {})
     }
 }
