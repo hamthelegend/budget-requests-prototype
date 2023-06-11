@@ -33,7 +33,7 @@ import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
-fun BudgetRequest(
+fun BudgetRequestScreen(
     budgetRequest: BudgetRequest,
     onBudgetRequestChange: (BudgetRequest) -> Unit,
     onClose: () -> Unit,
@@ -95,7 +95,7 @@ fun BudgetRequestPreview() {
     var budgetRequest by remember { mutableStateOf(sampleBudgetRequest) }
 
     BudgetRequestsTheme {
-        BudgetRequest(
+        BudgetRequestScreen(
             budgetRequest = budgetRequest,
             onBudgetRequestChange = { budgetRequest = it },
             onClose = {},

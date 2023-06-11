@@ -1,9 +1,7 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.createrequest
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
@@ -31,7 +29,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -52,7 +49,7 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun CreateRequest(
+fun CreateRequestScreen(
     onClose: () -> Unit,
 ) {
     var title by remember { mutableStateOf("") }
@@ -198,6 +195,6 @@ fun CreateRequest(
 @Composable
 fun CreateRequestPreview() {
     BudgetRequestsTheme {
-        CreateRequest(onClose = {})
+        CreateRequestScreen(onClose = {})
     }
 }

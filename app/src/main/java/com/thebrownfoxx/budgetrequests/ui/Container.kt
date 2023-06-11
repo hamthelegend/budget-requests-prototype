@@ -6,8 +6,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
-import com.thebrownfoxx.budgetrequests.ui.screens.budgetrequest.BudgetRequest
-import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.CreateRequest
+import com.thebrownfoxx.budgetrequests.ui.screens.budgetrequest.BudgetRequestScreen
+import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.CreateRequestScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomeScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.login.LoginScreen
 
@@ -32,8 +32,8 @@ fun Container() {
                 onCreateRequest = { screen = Screen.CreateRequest },
                 onBudgetRequestClick = { screen = Screen.BudgetRequest }
             )
-            Screen.CreateRequest -> CreateRequest(onClose = { screen = Screen.Home })
-            Screen.BudgetRequest -> BudgetRequest(
+            Screen.CreateRequest -> CreateRequestScreen(onClose = { screen = Screen.Home })
+            Screen.BudgetRequest -> BudgetRequestScreen(
                 budgetRequest = budgetRequest,
                 onBudgetRequestChange = { budgetRequest = it },
                 onClose = { screen = Screen.Home },
