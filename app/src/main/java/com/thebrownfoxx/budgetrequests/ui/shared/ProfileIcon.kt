@@ -21,10 +21,11 @@ import kotlin.random.nextLong
 @Composable
 fun ProfileIcon(
     text: String,
+    background: Color,
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        color = Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)),
+        color = background,
         modifier = modifier.size(24.dp).clip(CircleShape).background(Color(0xFF000000)),
     ) {
         Box(modifier = Modifier) {
@@ -42,6 +43,6 @@ fun ProfileIcon(
 @Composable
 fun ProfileIconPreview() {
     BudgetRequestsTheme {
-        ProfileIcon("A")
+        ProfileIcon("A", Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)))
     }
 }

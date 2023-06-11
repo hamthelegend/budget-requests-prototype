@@ -1,6 +1,10 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -8,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.BudgetRequest
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequests
+import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
@@ -32,6 +36,6 @@ fun BudgetRequests(
 @Composable
 fun BudgetRequestsPreview() {
     BudgetRequestsTheme {
-        BudgetRequests(budgetRequests = sampleBudgetRequests, onClick = {})
+        BudgetRequests(budgetRequests = DataSource.budgetRequests, onClick = {})
     }
 }

@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.BudgetRequest
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
+import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.ExpenseChip
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
@@ -40,7 +40,7 @@ fun BudgetRequestDetails(
         )
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
-            value = budgetRequest.requester,
+            value = budgetRequest.requestingOrganization.name,
             onValueChange = {},
             readOnly = true,
             label = { Text(text = "Organization") },
@@ -62,6 +62,6 @@ fun BudgetRequestDetails(
 @Composable
 fun BudgetRequestDetailsPreview() {
     BudgetRequestsTheme {
-        BudgetRequestDetails(budgetRequest = sampleBudgetRequest)
+        BudgetRequestDetails(budgetRequest = DataSource.budgetRequests.first())
     }
 }

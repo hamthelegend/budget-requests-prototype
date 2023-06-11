@@ -5,7 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
+import com.thebrownfoxx.budgetrequests.data.DataSource
 import com.thebrownfoxx.budgetrequests.ui.screens.budgetrequest.BudgetRequestScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.CreateRequestScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomeScreen
@@ -17,7 +17,7 @@ fun Container() {
     var screen by remember { mutableStateOf(Screen.Login) }
     val density = LocalDensity.current
 
-    var budgetRequest by remember { mutableStateOf(sampleBudgetRequest) }
+    var budgetRequest by remember { mutableStateOf(DataSource.budgetRequests.first()) }
 
     AnimatedContent(
         targetState = screen,
