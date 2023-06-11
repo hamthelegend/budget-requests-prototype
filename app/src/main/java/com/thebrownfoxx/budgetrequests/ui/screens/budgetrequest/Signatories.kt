@@ -26,16 +26,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.Signatory
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
+import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.AdminSignatory
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.OfficerSignatory
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatories
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.toSignatories
+import com.thebrownfoxx.budgetrequests.ui.models.user.User
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
 fun Signatories(
-    signatories: List<Signatory>,
-    currentUser: String,
-    onSignatoriesChange: (List<Signatory>) -> Unit,
+    signatories: Signatories,
+    currentUser: User,
+    onSignatoriesChange: (Signatories) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -45,18 +49,19 @@ fun Signatories(
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
-        signatories.forEachIndexed { index, signatory ->
+        signatories.toList().forEachIndexed { index, signatory ->
             if (index != 0) Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 ProfileIcon(
-                    text = signatory.name.first().toString(),
+                    text = signatory.user.firstName.first().toString(),
+                    background = signatory.user.profileBackground,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Column {
                     Text(
-                        text = signatory.name,
+                        text = signatory.user.fullName,
                         style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
@@ -65,13 +70,17 @@ fun Signatories(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                if (signatory.hasReceivedRequest) {
-                    if (signatory.name == currentUser) {
+                if (/* TODO: implement this: signatory.hasReceivedRequest */ true) {
+                    if (signatory.user == currentUser) {
                         IconButton(
                             onClick = {
-                                val newSignatories = signatories.toMutableList()
-                                newSignatories[index] = signatory.copy(hasSigned = false)
-                                onSignatoriesChange(newSignatories)
+                                val newSignatories = signatories.toList().toMutableList()
+                                if (signatory is AdminSignatory) {
+                                    newSignatories[index] = signatory.copy(hasSigned = false)
+                                } else if (signatory is OfficerSignatory) {
+                                    newSignatories[index] = signatory.copy(hasSigned = false)
+                                }
+                                onSignatoriesChange(newSignatories.toSignatories(signatories.adviser.user))
                             },
                             modifier = Modifier
                                 .clip(CircleShape)
@@ -88,9 +97,13 @@ fun Signatories(
                         }
                         IconButton(
                             onClick = {
-                                val newSignatories = signatories.toMutableList()
-                                newSignatories[index] = signatory.copy(hasSigned = true)
-                                onSignatoriesChange(newSignatories)
+                                val newSignatories = signatories.toList().toMutableList()
+                                if (signatory is AdminSignatory) {
+                                    newSignatories[index] = signatory.copy(hasSigned = true)
+                                } else if (signatory is OfficerSignatory) {
+                                    newSignatories[index] = signatory.copy(hasSigned = true)
+                                }
+                                onSignatoriesChange(newSignatories.toSignatories(signatories.adviser.user))
                             },
                             modifier = Modifier
                                 .clip(CircleShape)
@@ -127,13 +140,13 @@ fun Signatories(
 @Preview
 @Composable
 fun SignatoriesPreview() {
-    var signatories by remember { mutableStateOf(sampleBudgetRequest.signatories) }
+    var signatories by remember { mutableStateOf(DataSource.budgetRequests.first().signatories) }
 
     BudgetRequestsTheme {
         Signatories(
             signatories = signatories,
             onSignatoriesChange = { signatories = it },
-            currentUser = "Ru El",
+            currentUser = DataSource.users.first(),
         )
     }
 }

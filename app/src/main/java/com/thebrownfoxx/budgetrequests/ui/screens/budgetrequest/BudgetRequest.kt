@@ -28,8 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.BudgetRequest
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequest
+import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
@@ -68,7 +68,7 @@ fun BudgetRequestScreen(
                         Spacer(modifier = Modifier.width(32.dp))
                         Signatories(
                             signatories = budgetRequest.signatories,
-                            currentUser = "Ru El",
+                            currentUser = DataSource.users.first(),
                             onSignatoriesChange = { signatories ->
                                 val newBudgetRequest = budgetRequest.copy(signatories = signatories)
                                 onBudgetRequestChange(newBudgetRequest)
@@ -92,7 +92,7 @@ fun BudgetRequestScreen(
 @Preview(widthDp = 1920)
 @Composable
 fun BudgetRequestPreview() {
-    var budgetRequest by remember { mutableStateOf(sampleBudgetRequest) }
+    var budgetRequest by remember { mutableStateOf(DataSource.budgetRequests.first()) }
 
     BudgetRequestsTheme {
         BudgetRequestScreen(

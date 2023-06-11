@@ -42,9 +42,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.Expense
-import com.thebrownfoxx.budgetrequests.data.sampleExpense
-import com.thebrownfoxx.budgetrequests.data.sampleOrganizations
+import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.Expense
+import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -55,7 +55,7 @@ fun CreateRequestScreen(
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
     var organizationsDropdownExpanded by remember { mutableStateOf(false) }
-    var selectedOrganization by remember { mutableStateOf("") }
+    var selectedOrganization by remember { mutableStateOf<Organization?>(null) }
     var expenses by remember { mutableStateOf(listOf<Expense>()) }
 
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
@@ -97,7 +97,7 @@ fun CreateRequestScreen(
                     Spacer(modifier = Modifier.height(4.dp))
                     Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
                         OutlinedTextField(
-                            value = selectedOrganization,
+                            value = selectedOrganization?.name ?: "",
                             onValueChange = {},
                             readOnly = true,
                             label = { Text(text = "Organization") },
@@ -123,9 +123,9 @@ fun CreateRequestScreen(
                             expanded = organizationsDropdownExpanded,
                             onDismissRequest = { organizationsDropdownExpanded = false },
                         ) {
-                            sampleOrganizations.forEach { organization ->
+                            DataSource.organizations.forEach { organization ->
                                 DropdownMenuItem(
-                                    text = { Text(text = organization) },
+                                    text = { Text(text = organization.name) },
                                     onClick = {
                                         selectedOrganization = organization
                                         organizationsDropdownExpanded = false
@@ -150,24 +150,26 @@ fun CreateRequestScreen(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        var purpose by remember { mutableStateOf("") }
+                        var amount by remember { mutableStateOf("") }
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {  },
+                            value = purpose,
+                            onValueChange = { purpose = it },
                             label = { Text(text = "Expense") },
                             modifier = Modifier.weight(2f),
                             singleLine = true,
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {  },
+                            value = amount,
+                            onValueChange = { amount = it },
                             label = { Text(text = "Amount", maxLines = 1) },
                             modifier = Modifier.weight(1f),
                             singleLine = true,
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Surface(
-                            onClick = { expenses = expenses + sampleExpense },
+                            onClick = { expenses = expenses + Expense(purpose, amount.toDouble()) },
                             color = MaterialTheme.colorScheme.secondary,
                             shape = CircleShape,
                         ) {

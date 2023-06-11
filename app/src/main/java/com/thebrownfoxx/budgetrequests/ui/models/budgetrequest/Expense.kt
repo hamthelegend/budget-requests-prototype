@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.data
+package com.thebrownfoxx.budgetrequests.ui.models.budgetrequest
 
 data class Expense(
     val purpose: String,

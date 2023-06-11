@@ -1,6 +1,14 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.home
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Logout
@@ -10,13 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.sampleBudgetRequests
+import com.thebrownfoxx.budgetrequests.data.DataSource
 import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.BudgetRequests
 import com.thebrownfoxx.budgetrequests.ui.screens.home.createbutton.PrimaryButton
-import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 import com.thebrownfoxx.budgetrequests.ui.screens.home.search.SearchBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBarButton
+import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
 fun HomeScreen(
@@ -53,7 +61,7 @@ fun HomeScreen(
                     .padding(top = 32.dp, start = 32.dp, end = 32.dp, bottom = 16.dp)
                     .fillMaxWidth())
                 BudgetRequests(
-                    budgetRequests = sampleBudgetRequests,
+                    budgetRequests = DataSource.budgetRequests,
                     paddingValues = PaddingValues(start = 32.dp, end = 32.dp, bottom = 32.dp),
                     onClick = onBudgetRequestClick,
                 )
