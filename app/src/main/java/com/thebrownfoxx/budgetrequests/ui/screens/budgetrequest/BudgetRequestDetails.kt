@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.DataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.ExpenseChip
+import com.thebrownfoxx.budgetrequests.ui.shared.Profile
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,22 +41,29 @@ fun BudgetRequestDetails(
                 .heightIn(min = 200.dp),
         )
         Spacer(modifier = Modifier.height(4.dp))
-        OutlinedTextField(
-            value = budgetRequest.requestingOrganization.name,
-            onValueChange = {},
-            readOnly = true,
-            label = { Text(text = "Organization") },
-            modifier = Modifier.fillMaxWidth(),
-        )
         Column(modifier = Modifier.animateContentSize()) {
             budgetRequest.expenses.forEach { expense ->
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 ExpenseChip(
                     expense = expense,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Author", style = MaterialTheme.typography.labelLarge)
+        Spacer(modifier = Modifier.height(4.dp))
+        Profile(
+            name = budgetRequest.requestingOfficer.fullName,
+            background = budgetRequest.requestingOfficer.profileBackground,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Requesting Organization", style = MaterialTheme.typography.labelLarge)
+        Spacer(modifier = Modifier.height(4.dp))
+        Profile(
+            name = budgetRequest.requestingOrganization.name,
+            background = budgetRequest.requestingOrganization.profileBackground,
+        )
     }
 }
 

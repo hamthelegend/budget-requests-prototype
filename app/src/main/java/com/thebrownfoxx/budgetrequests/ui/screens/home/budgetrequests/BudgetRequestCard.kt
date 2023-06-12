@@ -14,9 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.DataSource
 import com.thebrownfoxx.budgetrequests.data.formattedMonetaryAmount
-import com.thebrownfoxx.budgetrequests.data.randomOpaqueColor
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
-import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
+import com.thebrownfoxx.budgetrequests.ui.shared.Profile
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,14 +45,9 @@ fun BudgetRequestCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                ProfileIcon(
-                    text = budgetRequest.requestingOrganization.name.first().toString(),
-                    background = randomOpaqueColor,
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = budgetRequest.requestingOrganization.name,
-                    style = MaterialTheme.typography.titleSmall,
+                Profile(
+                    name = budgetRequest.requestingOrganization.name,
+                    background = budgetRequest.requestingOrganization.profileBackground,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 InfoChip(text = budgetRequest.amount.formattedMonetaryAmount)
