@@ -1,15 +1,14 @@
 package com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory
 
 
-
 data class Signatories(
-    val treasurer: OfficerSignatory,
-    val auditor: OfficerSignatory,
-    val president: OfficerSignatory,
-    val adviser: AdminSignatory,
-    val assistantDean: AdminSignatory,
-    val dean: AdminSignatory,
-    val studentAffairsDirector: AdminSignatory,
+    val treasurer: Signatory,
+    val auditor: Signatory,
+    val president: Signatory,
+    val adviser: Signatory,
+    val assistantDean: Signatory,
+    val dean: Signatory,
+    val studentAffairsDirector: Signatory,
 ) {
 
     fun toList() = listOf(
@@ -58,11 +57,11 @@ data class Signatories(
 }
 
 fun Map<SignatoryPosition, Signatory>.toSignatories() = Signatories(
-    treasurer = get(SignatoryPosition.Treasurer) as OfficerSignatory,
-    auditor = get(SignatoryPosition.Auditor) as OfficerSignatory,
-    president = get(SignatoryPosition.President) as OfficerSignatory,
-    adviser = get(SignatoryPosition.Adviser) as AdminSignatory,
-    assistantDean = get(SignatoryPosition.AssistantDean) as AdminSignatory,
-    dean = get(SignatoryPosition.Dean) as AdminSignatory,
-    studentAffairsDirector = get(SignatoryPosition.AssistantDean) as AdminSignatory,
+    treasurer = get(SignatoryPosition.Treasurer)!!,
+    auditor = get(SignatoryPosition.Auditor)!!,
+    president = get(SignatoryPosition.President)!!,
+    adviser = get(SignatoryPosition.Adviser)!!,
+    assistantDean = get(SignatoryPosition.AssistantDean)!!,
+    dean = get(SignatoryPosition.Dean)!!,
+    studentAffairsDirector = get(SignatoryPosition.AssistantDean)!!,
 )

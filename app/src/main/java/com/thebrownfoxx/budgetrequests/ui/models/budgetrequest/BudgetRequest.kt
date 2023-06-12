@@ -5,7 +5,7 @@ import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.models.user.officer.Officer
 
 data class BudgetRequest(
-    val id: Int,
+    val id: Int? = null,
     val title: String,
     val body: String,
     val expenses: List<Expense>,

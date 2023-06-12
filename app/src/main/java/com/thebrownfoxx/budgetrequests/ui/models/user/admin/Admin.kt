@@ -6,7 +6,7 @@ import com.thebrownfoxx.budgetrequests.data.randomOpaqueColor
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
 
 data class Admin(
-    override val id: Int,
+    override val id: Int? = null,
     override val firstName: String,
     override val middleName: String? = null,
     override val lastName: String,

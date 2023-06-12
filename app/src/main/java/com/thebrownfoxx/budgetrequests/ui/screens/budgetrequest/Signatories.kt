@@ -21,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.DataSource
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.AdminSignatory
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.OfficerSignatory
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatories
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.toSignatories
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
@@ -73,11 +71,7 @@ fun Signatories(
                             active = !signatory.hasSigned,
                             onClick = {
                                 val newSignatories = signatories.toMap().toMutableMap()
-                                if (signatory is AdminSignatory) {
-                                    newSignatories[position] = signatory.unsigned()
-                                } else if (signatory is OfficerSignatory) {
-                                    newSignatories[position] = signatory.unsigned()
-                                }
+                                newSignatories[position] = signatory.unsigned()
                                 onSignatoriesChange(newSignatories.toSignatories())
                             },
                         )
@@ -88,11 +82,7 @@ fun Signatories(
                             active = signatory.hasSigned,
                             onClick = {
                                 val newSignatories = signatories.toMap().toMutableMap()
-                                if (signatory is AdminSignatory) {
-                                    newSignatories[position] = signatory.signed()
-                                } else if (signatory is OfficerSignatory) {
-                                    newSignatories[position] = signatory.signed()
-                                }
+                                newSignatories[position] = signatory.signed()
                                 onSignatoriesChange(newSignatories.toSignatories())
                             },
                         )

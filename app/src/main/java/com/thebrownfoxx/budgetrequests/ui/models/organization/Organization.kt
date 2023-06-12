@@ -5,7 +5,7 @@ import com.thebrownfoxx.budgetrequests.data.randomOpaqueColor
 import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
 
 data class Organization(
-    val id: Int,
+    val id: Int? = null,
     val name: String,
     val adviser: Admin,
     val officers: OrganizationOfficers,
