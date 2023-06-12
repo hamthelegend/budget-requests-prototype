@@ -1,12 +1,6 @@
 package com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory
 
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.SigningStage.Approved
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.SigningStage.Deans
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.SigningStage.Organization
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.SigningStage.StudentAffairsDirector
-import com.thebrownfoxx.budgetrequests.ui.models.organization.OrganizationPosition
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.AdminPosition
+
 
 data class Signatories(
     val treasurer: OfficerSignatory,
@@ -28,28 +22,47 @@ data class Signatories(
         studentAffairsDirector,
     )
 
+    fun toMap() = mapOf(
+        SignatoryPosition.Treasurer to treasurer,
+        SignatoryPosition.Auditor to auditor,
+        SignatoryPosition.President to president,
+        SignatoryPosition.Adviser to adviser,
+        SignatoryPosition.AssistantDean to assistantDean,
+        SignatoryPosition.Dean to dean,
+        SignatoryPosition.StudentAffairsDirector to studentAffairsDirector,
+    )
+
     fun getSigningStage() = when {
 
-        toList().all { it.hasSigned } -> Approved
+        toList().all { it.hasSigned } -> SigningStage.Approved
 
         listOf(dean, assistantDean, adviser, president, auditor, treasurer).all { it.hasSigned } ->
-            StudentAffairsDirector
+            SigningStage.StudentAffairsDirector
 
-        listOf(adviser, president, auditor, treasurer).all { it.hasSigned } -> Deans
+        listOf(adviser, president, auditor, treasurer).all { it.hasSigned } -> SigningStage.Deans
 
-        else -> Organization
+        else -> SigningStage.Organization
 
     }
 
+    fun getSignatoryPosition(signatory: Signatory) = when (signatory) {
+        treasurer -> SignatoryPosition.Treasurer
+        auditor -> SignatoryPosition.Auditor
+        president -> SignatoryPosition.President
+        adviser -> SignatoryPosition.Adviser
+        assistantDean -> SignatoryPosition.AssistantDean
+        dean -> SignatoryPosition.Dean
+        studentAffairsDirector -> SignatoryPosition.StudentAffairsDirector
+        else -> throw IllegalArgumentException("$signatory is not a signatory of this budget request")
+    }
 }
 
-fun List<Signatory>.toSignatories(adviser: Admin) =
-    Signatories(
-        treasurer = first { it is OfficerSignatory && it.position == OrganizationPosition.Treasurer } as OfficerSignatory,
-        auditor = first { it is OfficerSignatory && it.position == OrganizationPosition.Auditor } as OfficerSignatory,
-        president = first { it is OfficerSignatory && it.position == OrganizationPosition.President } as OfficerSignatory,
-        adviser = first { it is AdminSignatory && it.user == adviser } as AdminSignatory,
-        assistantDean = first { it is AdminSignatory && it.position == AdminPosition.AssistantDean } as AdminSignatory,
-        dean = first { it is AdminSignatory && it.position == AdminPosition.Dean } as AdminSignatory,
-        studentAffairsDirector = first { it is AdminSignatory && it.position == AdminPosition.StudentAffairsDirector } as AdminSignatory,
-    )
+fun Map<SignatoryPosition, Signatory>.toSignatories() = Signatories(
+    treasurer = get(SignatoryPosition.Treasurer) as OfficerSignatory,
+    auditor = get(SignatoryPosition.Auditor) as OfficerSignatory,
+    president = get(SignatoryPosition.President) as OfficerSignatory,
+    adviser = get(SignatoryPosition.Adviser) as AdminSignatory,
+    assistantDean = get(SignatoryPosition.AssistantDean) as AdminSignatory,
+    dean = get(SignatoryPosition.Dean) as AdminSignatory,
+    studentAffairsDirector = get(SignatoryPosition.AssistantDean) as AdminSignatory,
+)

@@ -15,5 +15,5 @@ data class Admin(
     override val profileBackground: Color = randomOpaqueColor,
     override val profilePictureFilename: String? = null,
     override val signatureFilename: String? = null,
-    val roles: List<AdminPosition> = listOf(),
+    val isSuperAdmin: Boolean = false,
 ): User()

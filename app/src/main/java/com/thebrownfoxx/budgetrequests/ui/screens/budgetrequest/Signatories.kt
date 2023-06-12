@@ -49,7 +49,7 @@ fun Signatories(
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
-        signatories.toList().forEachIndexed { index, signatory ->
+        signatories.toMap().toList().forEachIndexed { index, (position, signatory) ->
             if (index != 0) Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -65,7 +65,7 @@ fun Signatories(
                         style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
-                        text = signatory.role,
+                        text = signatories.getSignatoryPosition(signatory).text,
                         style = MaterialTheme.typography.labelSmall,
                     )
                 }
@@ -74,13 +74,13 @@ fun Signatories(
                     if (signatory.user == currentUser) {
                         IconButton(
                             onClick = {
-                                val newSignatories = signatories.toList().toMutableList()
+                                val newSignatories = signatories.toMap().toMutableMap()
                                 if (signatory is AdminSignatory) {
-                                    newSignatories[index] = signatory.copy(hasSigned = false)
+                                    newSignatories[position] = signatory.unsigned()
                                 } else if (signatory is OfficerSignatory) {
-                                    newSignatories[index] = signatory.copy(hasSigned = false)
+                                    newSignatories[position] = signatory.unsigned()
                                 }
-                                onSignatoriesChange(newSignatories.toSignatories(signatories.adviser.user))
+                                onSignatoriesChange(newSignatories.toSignatories())
                             },
                             modifier = Modifier
                                 .clip(CircleShape)
@@ -97,13 +97,13 @@ fun Signatories(
                         }
                         IconButton(
                             onClick = {
-                                val newSignatories = signatories.toList().toMutableList()
+                                val newSignatories = signatories.toMap().toMutableMap()
                                 if (signatory is AdminSignatory) {
-                                    newSignatories[index] = signatory.copy(hasSigned = true)
+                                    newSignatories[position] = signatory.signed()
                                 } else if (signatory is OfficerSignatory) {
-                                    newSignatories[index] = signatory.copy(hasSigned = true)
+                                    newSignatories[position] = signatory.signed()
                                 }
-                                onSignatoriesChange(newSignatories.toSignatories(signatories.adviser.user))
+                                onSignatoriesChange(newSignatories.toSignatories())
                             },
                             modifier = Modifier
                                 .clip(CircleShape)

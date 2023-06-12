@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.data.formattedMonetaryAmount
 import com.thebrownfoxx.budgetrequests.data.randomOpaqueColor
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
@@ -55,7 +56,7 @@ fun BudgetRequestCard(
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                InfoChip(text = budgetRequest.amount.toString()/* TODO: .formattedMonetaryAmount */)
+                InfoChip(text = budgetRequest.amount.formattedMonetaryAmount)
             }
         }
     }
