@@ -3,9 +3,8 @@ package com.thebrownfoxx.budgetrequests.data
 import com.thebrownfoxx.budgetrequests.data.hash.hash
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.Expense
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.AdminSignatory
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.OfficerSignatory
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatories
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatory
 import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.models.organization.OrganizationOfficers
 import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
@@ -150,37 +149,37 @@ object DataSource {
             requestingOrganization = honorsSociety,
             requestingOfficer = honorsSociety.officers.president,
             signatories = Signatories(
-                treasurer = OfficerSignatory(
+                treasurer = Signatory(
                     id = 1,
                     user = honorsSociety.officers.treasurer,
                     hasSigned = false,
                 ),
-                auditor = OfficerSignatory(
+                auditor = Signatory(
                     id = 1,
                     user = honorsSociety.officers.auditor,
                     hasSigned = false,
                 ),
-                president = OfficerSignatory(
+                president = Signatory(
                     id = 1,
                     user = honorsSociety.officers.president,
                     hasSigned = false,
                 ),
-                adviser = AdminSignatory(
+                adviser = Signatory(
                     id = 1,
                     user = honorsSociety.adviser,
                     hasSigned = false,
                 ),
-                assistantDean = AdminSignatory(
+                assistantDean = Signatory(
                     id = 1,
                     user = collegeAdmins.assistantDean,
                     hasSigned = false,
                 ),
-                dean = AdminSignatory(
+                dean = Signatory(
                     id = 1,
                     user = collegeAdmins.dean,
                     hasSigned = false,
                 ),
-                studentAffairsDirector = AdminSignatory(
+                studentAffairsDirector = Signatory(
                     id = 1,
                     user = collegeAdmins.studentAffairsDirector,
                     hasSigned = false,
