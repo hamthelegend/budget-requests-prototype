@@ -3,6 +3,7 @@ package com.thebrownfoxx.budgetrequests.data
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.thebrownfoxx.budgetrequests.data.database.BudgetRequestsDatabase
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
@@ -10,6 +11,9 @@ import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
 import com.thebrownfoxx.budgetrequests.ui.models.user.admin.CollegeAdmins
 
 object EmptyDataSource {
+    val database = dao.
+    val dao get() = database.dao()
+
     var users by mutableStateOf(listOf<User>())
         private set
 

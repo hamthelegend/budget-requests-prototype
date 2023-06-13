@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 import com.thebrownfoxx.budgetrequests.ui.Container
+import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
