@@ -1,11 +1,7 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +24,7 @@ fun SideBarButton(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
+
     Surface(
         shape = RoundedCornerShape(topStartPercent = 0, topEndPercent = 50, bottomEndPercent = 50, bottomStartPercent = 0),
         modifier = modifier,
@@ -35,7 +32,9 @@ fun SideBarButton(
         color = if (active) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
     ) {
         Row(
-            modifier = Modifier.padding(16.dp).padding(paddingValues),
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(paddingValues),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(

@@ -44,7 +44,8 @@ fun Container() {
                     navigator.popScreen()
                 },
                 onCreateRequest = { navigator.navigateTo(Screen.CreateRequestScreen) },
-                onBudgetRequestClick = { navigator.navigateTo(Screen.BudgetRequestScreen(it)) }
+                onBudgetRequestClick = { navigator.navigateTo(Screen.BudgetRequestScreen(it)) },
+                onUserClick = {},
             )
 
             Screen.CreateRequestScreen -> CreateRequestScreen(

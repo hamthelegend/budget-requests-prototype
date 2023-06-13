@@ -21,7 +21,7 @@ import com.thebrownfoxx.budgetrequests.ui.shared.IconText
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
-fun BudgetRequests(
+fun BudgetRequestsPage(
     budgetRequests: List<BudgetRequest>,
     onBudgetRequestClick: (BudgetRequest) -> Unit,
     modifier: Modifier = Modifier,
@@ -45,8 +45,8 @@ fun BudgetRequests(
 
 @Preview
 @Composable
-fun BudgetRequestsPreview() {
+fun BudgetRequestsPagePreview() {
     BudgetRequestsTheme {
-        BudgetRequests(budgetRequests = dataSource.budgetRequests, onBudgetRequestClick = {})
+        BudgetRequestsPage(budgetRequests = dataSource.budgetRequests, onBudgetRequestClick = {})
     }
 }

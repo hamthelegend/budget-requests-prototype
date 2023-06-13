@@ -1,5 +1,9 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.home
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,6 +23,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,23 +36,29 @@ import com.thebrownfoxx.budgetrequests.data.SampleDataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
 import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
-import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.BudgetRequests
+import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.BudgetRequestsPage
 import com.thebrownfoxx.budgetrequests.ui.screens.home.createbutton.PrimaryButton
 import com.thebrownfoxx.budgetrequests.ui.screens.home.search.SearchBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBarButton
+import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.sideBarOptions
+import com.thebrownfoxx.budgetrequests.ui.screens.home.users.UsersPage
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
+import com.thebrownfoxx.budgetrequests.ui.sharedZAxisEnter
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     loggedInUser: User,
     onCreateRequest: () -> Unit,
     onLogout: () -> Unit,
     onBudgetRequestClick: (BudgetRequest) -> Unit,
+    onUserClick: (User) -> Unit,
 ) {
     val dataSource = EmptyDataSource
+
+    var option by remember { mutableStateOf(sideBarOptions.first()) }
 
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxSize()) {
@@ -65,8 +79,10 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
                 SideBar(
+                    activeOption = option,
+                    onOptionClick = { option = it },
                     paddingValues = PaddingValues(start = 32.dp),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 Surface(
                     shape = RoundedCornerShape(
@@ -112,11 +128,25 @@ fun HomeScreen(
                         .padding(top = 32.dp, start = 32.dp, end = 32.dp, bottom = 16.dp)
                         .fillMaxWidth()
                 )
-                BudgetRequests(
-                    budgetRequests = dataSource.budgetRequests,
-                    paddingValues = PaddingValues(start = 32.dp, end = 32.dp, bottom = 32.dp),
-                    onBudgetRequestClick = onBudgetRequestClick,
-                )
+                AnimatedContent(
+                    targetState = option.homePage,
+                    transitionSpec = { sharedZAxisEnter() with fadeOut() }
+                ) { targetPage ->
+                    val paddingValues = PaddingValues(start = 32.dp, end = 32.dp, bottom = 32.dp)
+                    when (targetPage) {
+                        HomePage.BudgetRequests -> BudgetRequestsPage(
+                            budgetRequests = dataSource.budgetRequests,
+                            onBudgetRequestClick = onBudgetRequestClick,
+                            paddingValues = paddingValues,
+                        )
+                        HomePage.Users -> UsersPage(
+                            users = dataSource.users,
+                            onUserClick = onUserClick,
+                            paddingValues = paddingValues,
+                        )
+                        else -> {}
+                    }
+                }
             }
         }
     }
@@ -130,6 +160,8 @@ fun HomeScreenPreview() {
             loggedInUser = SampleDataSource.herbErt,
             onLogout = {},
             onCreateRequest = {},
-            onBudgetRequestClick = {})
+            onBudgetRequestClick = {},
+            onUserClick = {},
+        )
     }
 }

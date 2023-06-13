@@ -22,7 +22,7 @@ object SampleDataSource {
     )
     val marIo = Admin(
         id = 2,
-        firstName = "Mario",
+        firstName = "Mar",
         lastName = "Io",
         username = "mar_io",
         passwordHash = hash("bowow"),
