@@ -6,7 +6,9 @@ import com.thebrownfoxx.budgetrequests.data.EmptyDataSource
 import com.thebrownfoxx.budgetrequests.ui.screens.budgetrequest.BudgetRequestScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.createrequest.CreateRequestScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.createsuperadmin.CreateSuperAdminScreen
+import com.thebrownfoxx.budgetrequests.ui.screens.home.HomePageNavigator
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomeScreen
+import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.sideBarOptions
 import com.thebrownfoxx.budgetrequests.ui.screens.login.LoginScreen
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -42,10 +44,12 @@ fun Container() {
                 loggedInUser = targetScreen.loggedInUser,
                 onLogout = {
                     navigator.popScreen()
+                    HomePageNavigator.option = sideBarOptions.first()
                 },
-                onCreateRequest = { navigator.navigateTo(Screen.CreateRequestScreen) },
+                onNavigateToCreateRequest = { navigator.navigateTo(Screen.CreateRequestScreen) },
                 onBudgetRequestClick = { navigator.navigateTo(Screen.BudgetRequestScreen(it)) },
                 onUserClick = {},
+                onNavigateToAddUser = { navigator.navigateTo(Screen.AddUserScreen) }
             )
 
             Screen.CreateRequestScreen -> CreateRequestScreen(
@@ -57,6 +61,14 @@ fun Container() {
                 budgetRequest = targetScreen.budgetRequest,
                 onBudgetRequestChange = { dataSource.updateBudgetRequest(it) },
                 onClose = { navigator.popScreen() },
+            )
+
+            Screen.AddUserScreen -> AddUserScreen(
+                onAddUser = { user ->
+                    dataSource.addUser(user)
+                    navigator.popScreen()
+                },
+                onClose = { navigator.popScreen() }
             )
         }
     }

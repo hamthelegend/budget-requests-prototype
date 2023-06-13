@@ -25,22 +25,29 @@ val sideBarOptions = listOf(
         icon = Icons.Default.RequestPage,
         text = "Budget Requests",
         homePage = HomePage.BudgetRequests,
+        forAdmins = true,
+        forOfficers = true,
     ),
     SideBarOption(
         icon = Icons.Default.Notifications,
         text = "Notifications",
         homePage = HomePage.Notifications,
+        forAdmins = true,
+        forOfficers = true,
     ),
     SideBarOption(
         icon = Icons.Default.People,
         text = "Users",
-        homePage =
-        HomePage.Users,
+        homePage = HomePage.Users,
+        forAdmins = true,
+        forOfficers = false,
     ),
     SideBarOption(
         icon = Icons.Default.Groups,
         text = "Organizations",
         homePage = HomePage.Organizations,
+        forAdmins = true,
+        forOfficers = true,
     ),
 )
 
@@ -48,10 +55,13 @@ data class SideBarOption(
     val icon: ImageVector,
     val text: String,
     val homePage: HomePage,
+    val forAdmins: Boolean,
+    val forOfficers: Boolean,
 )
 
 @Composable
 fun SideBar(
+    isAdmin: Boolean,
     activeOption: SideBarOption,
     onOptionClick: (SideBarOption) -> Unit,
     modifier: Modifier = Modifier,
@@ -59,16 +69,18 @@ fun SideBar(
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         sideBarOptions.forEach { sideBarOption ->
-            SideBarButton(
-                icon = sideBarOption.icon,
-                text = sideBarOption.text,
-                onClick = {
-                    onOptionClick(sideBarOption)
-                },
-                active = sideBarOption == activeOption,
-                modifier = Modifier.fillMaxWidth(),
-                paddingValues = paddingValues,
-            )
+            if (isAdmin && sideBarOption.forAdmins || !isAdmin && sideBarOption.forOfficers) {
+                SideBarButton(
+                    icon = sideBarOption.icon,
+                    text = sideBarOption.text,
+                    onClick = {
+                        onOptionClick(sideBarOption)
+                    },
+                    active = sideBarOption == activeOption,
+                    modifier = Modifier.fillMaxWidth(),
+                    paddingValues = paddingValues,
+                )
+            }
         }
     }
 }
@@ -80,6 +92,7 @@ fun SideBarPreview() {
 
     BudgetRequestsTheme {
         SideBar(
+            isAdmin = false,
             onOptionClick = { option = it },
             activeOption = option,
         )

@@ -47,7 +47,7 @@ fun BudgetRequestScreen(
                 .align(Alignment.Center)
                 .widthIn(max = 1024.dp)) {
                 Column(modifier = Modifier.padding(32.dp)) {
-                    Row {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = onClose) {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
                         }

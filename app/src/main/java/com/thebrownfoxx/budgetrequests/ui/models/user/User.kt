@@ -10,6 +10,7 @@ abstract class User {
     abstract val lastName: String
     abstract val username: String
     abstract val passwordHash: Hash
+    abstract val isPasswordPregenerated: Boolean
     abstract val profileBackground: Color
     abstract val profilePictureFilename: String?
     abstract val signatureFilename: String?

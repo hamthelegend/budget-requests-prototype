@@ -1,7 +1,9 @@
 package com.thebrownfoxx.budgetrequests.ui.screens.home
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,10 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,12 +35,12 @@ import com.thebrownfoxx.budgetrequests.data.SampleDataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
 import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
+import com.thebrownfoxx.budgetrequests.ui.screens.home.HomePageNavigator.option
 import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.BudgetRequestsPage
 import com.thebrownfoxx.budgetrequests.ui.screens.home.createbutton.PrimaryButton
 import com.thebrownfoxx.budgetrequests.ui.screens.home.search.SearchBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBarButton
-import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.sideBarOptions
 import com.thebrownfoxx.budgetrequests.ui.screens.home.users.UsersPage
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.sharedZAxisEnter
@@ -51,14 +50,13 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 @Composable
 fun HomeScreen(
     loggedInUser: User,
-    onCreateRequest: () -> Unit,
+    onNavigateToCreateRequest: () -> Unit,
     onLogout: () -> Unit,
     onBudgetRequestClick: (BudgetRequest) -> Unit,
+    onNavigateToAddUser: () -> Unit,
     onUserClick: (User) -> Unit,
 ) {
     val dataSource = EmptyDataSource
-
-    var option by remember { mutableStateOf(sideBarOptions.first()) }
 
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxSize()) {
@@ -67,18 +65,39 @@ fun HomeScreen(
                     .width(384.dp)
                     .padding(top = 32.dp, bottom = 32.dp, start = 0.dp, end = 0.dp),
             ) {
-                if (loggedInUser !is Admin) {
-                    PrimaryButton(
-                        icon = Icons.Default.Create,
-                        text = "Create Request",
-                        onClick = onCreateRequest,
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .fillMaxWidth(),
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+                AnimatedVisibility(
+                    visible = (option.homePage == HomePage.BudgetRequests && loggedInUser !is Admin) ||
+                            (option.homePage == HomePage.Users && loggedInUser is Admin),
+                    modifier = Modifier.animateContentSize(),
+                ) {
+                    Column {
+                        AnimatedContent(targetState = option.homePage) { targetHomePage ->
+                            PrimaryButton(
+                                icon = when (targetHomePage) {
+                                    HomePage.BudgetRequests -> Icons.Default.Create
+                                    HomePage.Users -> Icons.Default.Add
+                                    else -> Icons.Default.Add
+                                },
+                                text = when (targetHomePage) {
+                                    HomePage.BudgetRequests -> "Create Request"
+                                    HomePage.Users -> "Add User"
+                                    else -> ""
+                                },
+                                onClick = when (targetHomePage) {
+                                    HomePage.BudgetRequests -> onNavigateToCreateRequest
+                                    HomePage.Users -> onNavigateToAddUser
+                                    else -> {{}}
+                                },
+                                modifier = Modifier
+                                    .padding(start = 16.dp)
+                                    .fillMaxWidth(),
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
                 SideBar(
+                    isAdmin = loggedInUser is Admin,
                     activeOption = option,
                     onOptionClick = { option = it },
                     paddingValues = PaddingValues(start = 32.dp),
@@ -139,11 +158,13 @@ fun HomeScreen(
                             onBudgetRequestClick = onBudgetRequestClick,
                             paddingValues = paddingValues,
                         )
+
                         HomePage.Users -> UsersPage(
                             users = dataSource.users,
                             onUserClick = onUserClick,
                             paddingValues = paddingValues,
                         )
+
                         else -> {}
                     }
                 }
@@ -159,9 +180,10 @@ fun HomeScreenPreview() {
         HomeScreen(
             loggedInUser = SampleDataSource.herbErt,
             onLogout = {},
-            onCreateRequest = {},
+            onNavigateToCreateRequest = {},
             onBudgetRequestClick = {},
             onUserClick = {},
+            onNavigateToAddUser = {},
         )
     }
 }
