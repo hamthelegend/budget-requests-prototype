@@ -15,4 +15,6 @@ data class Officer(
     override val profileBackground: Color = randomOpaqueColor,
     override val profilePictureFilename: String? = null,
     override val signatureFilename: String? = null,
-): User()
+): User() {
+    override fun copyWithId(id: Int) = copy(id = id)
+}

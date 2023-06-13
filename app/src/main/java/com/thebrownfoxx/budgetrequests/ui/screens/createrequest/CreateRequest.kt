@@ -42,7 +42,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.data.dataSource
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.Expense
 import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
@@ -50,6 +51,7 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun CreateRequestScreen(
+    onAddBudgetRequest: (BudgetRequest) -> Unit,
     onClose: () -> Unit,
 ) {
     var title by remember { mutableStateOf("") }
@@ -123,7 +125,7 @@ fun CreateRequestScreen(
                             expanded = organizationsDropdownExpanded,
                             onDismissRequest = { organizationsDropdownExpanded = false },
                         ) {
-                            DataSource.organizations.forEach { organization ->
+                            dataSource.organizations.forEach { organization ->
                                 DropdownMenuItem(
                                     text = { Text(text = organization.name) },
                                     onClick = {
@@ -182,7 +184,14 @@ fun CreateRequestScreen(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = onClose,
+                        onClick = {
+//                                  val budgetRequest = BudgetRequest(
+//                                      title = title,
+//                                      body = body,
+//                                      expenses = expenses,
+//                                      requestingOrganization = Or
+//                                  )
+                        },
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(text = "Submit Request")
@@ -197,6 +206,9 @@ fun CreateRequestScreen(
 @Composable
 fun CreateRequestPreview() {
     BudgetRequestsTheme {
-        CreateRequestScreen(onClose = {})
+        CreateRequestScreen(
+            onClose = {},
+            onAddBudgetRequest = {},
+        )
     }
 }

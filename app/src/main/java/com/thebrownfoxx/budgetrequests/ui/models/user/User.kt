@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.thebrownfoxx.budgetrequests.data.hash.Hash
 
 abstract class User {
-    abstract val id: Int
+    abstract val id: Int?
     abstract val firstName: String
     abstract val middleName: String?
     abstract val lastName: String
@@ -13,6 +13,8 @@ abstract class User {
     abstract val profileBackground: Color
     abstract val profilePictureFilename: String?
     abstract val signatureFilename: String?
+
+    abstract fun copyWithId(id: Int): User
 
     val fullName: String
         get() {

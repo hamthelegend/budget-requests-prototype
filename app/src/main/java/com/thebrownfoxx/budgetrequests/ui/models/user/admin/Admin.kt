@@ -16,4 +16,6 @@ data class Admin(
     override val profilePictureFilename: String? = null,
     override val signatureFilename: String? = null,
     val isSuperAdmin: Boolean = false,
-): User()
+): User() {
+    override fun copyWithId(id: Int) = copy(id = id)
+}

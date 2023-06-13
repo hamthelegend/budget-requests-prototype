@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.DataSource
+import com.thebrownfoxx.budgetrequests.data.dataSource
 import com.thebrownfoxx.budgetrequests.data.formattedMonetaryAmount
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.shared.Profile
@@ -60,6 +60,6 @@ fun BudgetRequestCard(
 @Composable
 fun BudgetRequestCardPreview() {
     BudgetRequestsTheme {
-        BudgetRequestCard(budgetRequest = DataSource.budgetRequests.first(), onClick = {})
+        BudgetRequestCard(budgetRequest = dataSource.budgetRequests.first(), onClick = {})
     }
 }
