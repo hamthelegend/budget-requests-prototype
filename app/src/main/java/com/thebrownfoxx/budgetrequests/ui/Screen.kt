@@ -10,4 +10,5 @@ sealed class Screen {
     object CreateRequestScreen: Screen()
     class BudgetRequestScreen(val budgetRequest: BudgetRequest): Screen()
     object AddUserScreen: Screen()
+    class UserScreen(val user: User): Screen()
 }

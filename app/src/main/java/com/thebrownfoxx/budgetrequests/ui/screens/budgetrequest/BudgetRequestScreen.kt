@@ -62,8 +62,7 @@ fun BudgetRequestScreen(
                     Row {
                         BudgetRequestDetails(
                             budgetRequest = budgetRequest,
-                            modifier = Modifier
-                                .weight(1f),
+                            modifier = Modifier.weight(1f),
                         )
                         Spacer(modifier = Modifier.width(32.dp))
                         Signatories(

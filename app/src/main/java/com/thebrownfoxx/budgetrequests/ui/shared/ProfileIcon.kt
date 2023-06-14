@@ -18,20 +18,40 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 import kotlin.random.Random
 import kotlin.random.nextLong
 
+enum class ProfileIconSize {
+    Small,
+    Medium,
+    Large,
+}
+
 @Composable
 fun ProfileIcon(
     text: String,
     background: Color,
     modifier: Modifier = Modifier,
+    size: ProfileIconSize = ProfileIconSize.Small,
 ) {
     Surface(
         color = background,
-        modifier = modifier.size(24.dp).clip(CircleShape).background(Color(0xFF000000)),
+        modifier = modifier
+            .size(
+                when (size) {
+                    ProfileIconSize.Small -> 24.dp
+                    ProfileIconSize.Medium -> 48.dp
+                    ProfileIconSize.Large -> 64.dp
+                }
+            )
+            .clip(CircleShape)
+            .background(Color(0xFF000000)),
     ) {
         Box(modifier = Modifier) {
             Text(
                 text = text,
-                fontSize = 16.sp,
+                fontSize = when (size) {
+                    ProfileIconSize.Small -> 16.sp
+                    ProfileIconSize.Medium -> 24.sp
+                    ProfileIconSize.Large -> 32.sp
+                },
                 modifier = Modifier.align(Alignment.Center),
                 color = Color(0xFFFFFFFF),
             )
@@ -41,8 +61,36 @@ fun ProfileIcon(
 
 @Preview
 @Composable
-fun ProfileIconPreview() {
+fun SmallProfileIconPreview() {
     BudgetRequestsTheme {
-        ProfileIcon("A", Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)))
+        ProfileIcon(
+            text = "A",
+            background = Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)),
+            size = ProfileIconSize.Small,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun MediumProfileIconPreview() {
+    BudgetRequestsTheme {
+        ProfileIcon(
+            text = "A",
+            background = Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)),
+            size = ProfileIconSize.Medium,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun LargeProfileIconPreview() {
+    BudgetRequestsTheme {
+        ProfileIcon(
+            text = "A",
+            background = Color(Random.nextLong(0x64000000.toLong()..0x64FFFFFF)),
+            size = ProfileIconSize.Large,
+        )
     }
 }

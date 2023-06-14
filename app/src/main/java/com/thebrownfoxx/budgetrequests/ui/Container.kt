@@ -10,6 +10,7 @@ import com.thebrownfoxx.budgetrequests.ui.screens.home.HomePageNavigator
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomeScreen
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.sideBarOptions
 import com.thebrownfoxx.budgetrequests.ui.screens.login.LoginScreen
+import com.thebrownfoxx.budgetrequests.ui.screens.user.UserScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -48,7 +49,7 @@ fun Container() {
                 },
                 onNavigateToCreateRequest = { navigator.navigateTo(Screen.CreateRequestScreen) },
                 onBudgetRequestClick = { navigator.navigateTo(Screen.BudgetRequestScreen(it)) },
-                onUserClick = {},
+                onUserClick = { navigator.navigateTo(Screen.UserScreen(it)) },
                 onNavigateToAddUser = { navigator.navigateTo(Screen.AddUserScreen) }
             )
 
@@ -68,6 +69,11 @@ fun Container() {
                     dataSource.addUser(user)
                     navigator.popScreen()
                 },
+                onClose = { navigator.popScreen() }
+            )
+
+            is Screen.UserScreen -> UserScreen(
+                user = targetScreen.user,
                 onClose = { navigator.popScreen() }
             )
         }

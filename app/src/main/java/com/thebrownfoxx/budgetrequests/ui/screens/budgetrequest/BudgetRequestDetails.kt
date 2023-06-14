@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -27,10 +26,7 @@ fun BudgetRequestDetails(
     budgetRequest: BudgetRequest,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .widthIn(max = 512.dp)
-    ) {
+    Column(modifier = modifier) {
         OutlinedTextField(
             value = budgetRequest.body,
             onValueChange = { },
