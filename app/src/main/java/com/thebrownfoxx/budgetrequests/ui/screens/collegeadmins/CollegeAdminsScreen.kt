@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.ui.screens.budgetrequest
+package com.thebrownfoxx.budgetrequests.ui.screens.collegeadmins
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,24 +20,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
-import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
-import com.thebrownfoxx.budgetrequests.ui.models.user.User
+import com.thebrownfoxx.budgetrequests.ui.models.user.CollegeAdmins
+import com.thebrownfoxx.budgetrequests.ui.shared.UserWithRole
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
-fun BudgetRequestScreen(
-    loggedInUser: User,
-    budgetRequest: BudgetRequest,
-    onBudgetRequestChange: (BudgetRequest) -> Unit,
+fun CollegeAdminsScreen(
+    collegeAdmins: CollegeAdmins,
+    onNavigateToEditCollegeAdmins: () -> Unit,
     onClose: () -> Unit,
 ) {
     Surface(
@@ -45,9 +40,11 @@ fun BudgetRequestScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Card(modifier = Modifier
-                .align(Alignment.Center)
-                .widthIn(max = 1024.dp)) {
+            Card(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .widthIn(max = 512.dp)
+            ) {
                 Column(modifier = Modifier.padding(32.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = onClose) {
@@ -55,34 +52,23 @@ fun BudgetRequestScreen(
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = budgetRequest.title,
+                            text = "College Admins",
                             style = MaterialTheme.typography.headlineLarge,
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row {
-                        BudgetRequestDetails(
-                            budgetRequest = budgetRequest,
-                            modifier = Modifier.weight(1f),
-                        )
-                        Spacer(modifier = Modifier.width(32.dp))
-                        Signatories(
-                            signatories = budgetRequest.signatories,
-                            currentUser = loggedInUser,
-                            onSignatoriesChange = { signatories ->
-                                val newBudgetRequest = budgetRequest.copy(signatories = signatories)
-                                onBudgetRequestChange(newBudgetRequest)
-                            },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
+                    UserWithRole(user = collegeAdmins.assistantDean, role = "Assistant Dean")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    UserWithRole(user = collegeAdmins.dean, role = "Dean")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    UserWithRole(user = collegeAdmins.studentAffairsDirector, role = "Student Affairs Director")
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = {},
+                        onClick = onNavigateToEditCollegeAdmins,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Text(text = "Edit Request")
+                        Text(text = "Edit College Admins")
                     }
                 }
             }
@@ -90,17 +76,10 @@ fun BudgetRequestScreen(
     }
 }
 
-@Preview(widthDp = 1920)
+@Preview
 @Composable
-fun BudgetRequestPreview() {
-    var budgetRequest by remember { mutableStateOf(SampleDataSource.budgetRequests.first()) }
-
+fun CollegeAdminsScreenPreview() {
     BudgetRequestsTheme {
-        BudgetRequestScreen(
-            loggedInUser = SampleDataSource.herbErt,
-            budgetRequest = budgetRequest,
-            onBudgetRequestChange = { budgetRequest = it },
-            onClose = {},
-        )
+        CollegeAdminsScreen(collegeAdmins = SampleDataSource.collegeAdmins, onNavigateToEditCollegeAdmins = {}, onClose = {})
     }
 }

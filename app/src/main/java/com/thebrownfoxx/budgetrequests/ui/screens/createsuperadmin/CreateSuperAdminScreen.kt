@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.hash.hash
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

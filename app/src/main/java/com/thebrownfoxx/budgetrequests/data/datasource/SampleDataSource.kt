@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.data
+package com.thebrownfoxx.budgetrequests.data.datasource
 
 import com.thebrownfoxx.budgetrequests.data.hash.hash
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
@@ -7,9 +7,9 @@ import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signato
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatory
 import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
 import com.thebrownfoxx.budgetrequests.ui.models.organization.OrganizationOfficers
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.CollegeAdmins
-import com.thebrownfoxx.budgetrequests.ui.models.user.officer.Officer
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.CollegeAdmins
+import com.thebrownfoxx.budgetrequests.ui.models.user.Officer
 
 object SampleDataSource {
     val herbErt = Admin(
@@ -115,7 +115,6 @@ object SampleDataSource {
             auditor = hamUel,
             publicRelationsOfficer = wesTly,
         ),
-        isStudentCouncil = false
     )
     val idiotsSociety = Organization(
         id = 1,
@@ -129,7 +128,6 @@ object SampleDataSource {
             auditor = jerIcho,
             publicRelationsOfficer = wesTly,
         ),
-        isStudentCouncil = false
     )
 
     val organizations = listOf(honorsSociety)
@@ -150,37 +148,30 @@ object SampleDataSource {
             requestingOfficer = honorsSociety.officers.president,
             signatories = Signatories(
                 treasurer = Signatory(
-                    id = 1,
                     user = honorsSociety.officers.treasurer,
                     hasSigned = false,
                 ),
                 auditor = Signatory(
-                    id = 1,
                     user = honorsSociety.officers.auditor,
                     hasSigned = false,
                 ),
                 president = Signatory(
-                    id = 1,
                     user = honorsSociety.officers.president,
                     hasSigned = false,
                 ),
                 adviser = Signatory(
-                    id = 1,
                     user = honorsSociety.adviser,
                     hasSigned = false,
                 ),
                 assistantDean = Signatory(
-                    id = 1,
                     user = collegeAdmins.assistantDean!!,
                     hasSigned = false,
                 ),
                 dean = Signatory(
-                    id = 1,
                     user = collegeAdmins.dean!!,
                     hasSigned = false,
                 ),
                 studentAffairsDirector = Signatory(
-                    id = 1,
                     user = collegeAdmins.studentAffairsDirector!!,
                     hasSigned = false,
                 ),

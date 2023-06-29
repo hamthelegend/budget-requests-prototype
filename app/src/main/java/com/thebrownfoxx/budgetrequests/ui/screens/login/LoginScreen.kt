@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.EmptyDataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.EmptyDataSource
 import com.thebrownfoxx.budgetrequests.data.hash.hash
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme

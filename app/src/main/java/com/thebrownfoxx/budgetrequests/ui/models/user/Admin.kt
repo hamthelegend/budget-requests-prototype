@@ -1,9 +1,8 @@
-package com.thebrownfoxx.budgetrequests.ui.models.user.admin
+package com.thebrownfoxx.budgetrequests.ui.models.user
 
 import androidx.compose.ui.graphics.Color
-import com.thebrownfoxx.budgetrequests.data.getRandomOpaqueColor
+import com.thebrownfoxx.budgetrequests.data.getRandomColor
 import com.thebrownfoxx.budgetrequests.data.hash.Hash
-import com.thebrownfoxx.budgetrequests.ui.models.user.User
 
 data class Admin(
     override val id: Int? = null,
@@ -12,7 +11,7 @@ data class Admin(
     override val lastName: String,
     override val username: String,
     override val passwordHash: Hash,
-    override val profileBackground: Color = getRandomOpaqueColor(),
+    override val profileBackground: Color = getRandomColor(),
     override val isPasswordPregenerated: Boolean = false,
     override val profilePictureFilename: String? = null,
     override val signatureFilename: String? = null,

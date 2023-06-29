@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.ui
+package com.thebrownfoxx.budgetrequests.ui.screens.adduser
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -39,9 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.getRandomPassword
 import com.thebrownfoxx.budgetrequests.data.hash.hash
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.Officer
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
-import com.thebrownfoxx.budgetrequests.ui.models.user.officer.Officer
 import com.thebrownfoxx.budgetrequests.ui.shared.ChoiceChip
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
@@ -217,6 +217,7 @@ fun AddUserScreen(
                                 clipboardManager.setText(AnnotatedString(password))
                                 Toast.makeText(context, "Password copied to clipboard", Toast.LENGTH_LONG).show()
                                 onAddUser(user)
+                                onClose()
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),

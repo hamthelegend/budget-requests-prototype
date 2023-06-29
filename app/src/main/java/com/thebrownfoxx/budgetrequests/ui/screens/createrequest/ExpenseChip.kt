@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.dataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
 import com.thebrownfoxx.budgetrequests.data.formattedMonetaryAmount
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.Expense
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
@@ -55,7 +55,7 @@ fun ExpenseChip(
 fun ExpenseChipPreview() {
     BudgetRequestsTheme {
         ExpenseChip(
-            expense = dataSource.budgetRequests.first().expenses.first(),
+            expense = SampleDataSource.budgetRequests.first().expenses.first(),
             modifier = Modifier.fillMaxWidth(),
             onDelete = {},
         )

@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.dataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatories
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.toSignatories
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
@@ -103,13 +103,13 @@ fun Signatories(
 @Preview
 @Composable
 fun SignatoriesPreview() {
-    var signatories by remember { mutableStateOf(dataSource.budgetRequests.first().signatories) }
+    var signatories by remember { mutableStateOf(SampleDataSource.budgetRequests.first().signatories) }
 
     BudgetRequestsTheme {
         Signatories(
             signatories = signatories,
             onSignatoriesChange = { signatories = it },
-            currentUser = dataSource.users.first(),
+            currentUser = SampleDataSource.users.first(),
         )
     }
 }

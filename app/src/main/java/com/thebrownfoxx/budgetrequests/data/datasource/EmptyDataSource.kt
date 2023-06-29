@@ -1,13 +1,15 @@
-package com.thebrownfoxx.budgetrequests.data
+package com.thebrownfoxx.budgetrequests.data.datasource
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
+import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory.Signatories
 import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.CollegeAdmins
+import com.thebrownfoxx.budgetrequests.ui.models.user.Officer
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.CollegeAdmins
 
 object EmptyDataSource {
     var users by mutableStateOf(listOf<User>())
@@ -37,9 +39,26 @@ object EmptyDataSource {
 
     fun getUser(username: String) = users.firstOrNull { user -> user.username == username }
 
+    fun getAdmins() = users.filterIsInstance<Admin>()
+
+    fun getOfficers() = users.filterIsInstance<Officer>()
+
     fun addUser(user: User) {
         val newUser = user.copyWithId(id = lastUserId++)
         users = users + newUser
+    }
+
+    fun updateCollegeAdmins(newCollegeAdmins: CollegeAdmins) {
+        collegeAdmins = newCollegeAdmins
+    }
+
+    fun getOrganizations(officer: Officer) = organizations.filter { organization ->
+        officer in organization.officers.toList()
+    }
+
+    fun addOrganization(organization: Organization) {
+        val newOrganization = organization.copy(id = lastOrganizationId++)
+        organizations = organizations + newOrganization
     }
 
     fun addBudgetRequest(budgetRequest: BudgetRequest) {
@@ -54,4 +73,14 @@ object EmptyDataSource {
         newBudgetRequests[index] = budgetRequest
         budgetRequests = newBudgetRequests
     }
+
+    fun getDefaultSignatories(organization: Organization) = Signatories(
+        treasurer = organization.officers.treasurer,
+        auditor = organization.officers.auditor,
+        president = organization.officers.president,
+        adviser = organization.adviser,
+        assistantDean = collegeAdmins.assistantDean!!,
+        dean = collegeAdmins.dean!!,
+        studentAffairsDirector = collegeAdmins.studentAffairsDirector!!,
+    )
 }

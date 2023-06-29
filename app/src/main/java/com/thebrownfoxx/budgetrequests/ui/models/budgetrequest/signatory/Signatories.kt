@@ -1,5 +1,9 @@
 package com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.signatory
 
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.Officer
+import com.thebrownfoxx.budgetrequests.ui.models.user.User
+
 
 data class Signatories(
     val treasurer: Signatory,
@@ -10,6 +14,23 @@ data class Signatories(
     val dean: Signatory,
     val studentAffairsDirector: Signatory,
 ) {
+    constructor(
+        treasurer: Officer,
+        auditor: Officer,
+        president: Officer,
+        adviser: Admin,
+        assistantDean: Admin,
+        dean: Admin,
+        studentAffairsDirector: Admin,
+    ): this(
+        treasurer = treasurer.toSignatory(),
+        auditor = auditor.toSignatory(),
+        president = president.toSignatory(),
+        adviser = adviser.toSignatory(),
+        assistantDean = assistantDean.toSignatory(),
+        dean = dean.toSignatory(),
+        studentAffairsDirector = studentAffairsDirector.toSignatory(),
+    )
 
     fun toList() = listOf(
         treasurer,
@@ -64,4 +85,9 @@ fun Map<SignatoryPosition, Signatory>.toSignatories() = Signatories(
     assistantDean = get(SignatoryPosition.AssistantDean)!!,
     dean = get(SignatoryPosition.Dean)!!,
     studentAffairsDirector = get(SignatoryPosition.AssistantDean)!!,
+)
+
+fun User.toSignatory() = Signatory(
+    user = this,
+    hasSigned = false,
 )

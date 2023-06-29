@@ -38,7 +38,7 @@ fun IconTextSelection(
     ) {
        Row(
            verticalAlignment = Alignment.CenterVertically,
-           modifier = Modifier.padding(16.dp)
+           modifier = Modifier.padding(16.dp),
        ) {
            Icon(imageVector = icon, contentDescription = text)
            Spacer(modifier = Modifier.width(16.dp))

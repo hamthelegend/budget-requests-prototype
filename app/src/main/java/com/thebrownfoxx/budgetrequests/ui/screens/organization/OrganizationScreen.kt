@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.ui.screens.user
+package com.thebrownfoxx.budgetrequests.ui.screens.organization
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Badge
-import androidx.compose.material.icons.filled.Draw
-import androidx.compose.material.icons.filled.Password
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,17 +23,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
-import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
-import com.thebrownfoxx.budgetrequests.ui.models.user.User
-import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.InfoChip
-import com.thebrownfoxx.budgetrequests.ui.shared.IconTextSelection
+import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
+import com.thebrownfoxx.budgetrequests.ui.models.organization.OrganizationPosition
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIconSize
+import com.thebrownfoxx.budgetrequests.ui.shared.UserWithRole
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 
 @Composable
-fun UserScreen(
-    user: User,
+fun OrganizationScreen(
+    organization: Organization,
     onClose: () -> Unit,
 ) {
     Surface(
@@ -54,44 +51,47 @@ fun UserScreen(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Column(
-                        modifier = Modifier.widthIn(max = 512.dp)
+                        modifier = Modifier.fillMaxWidth()
+                            .widthIn(max = 512.dp)
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxWidth(),
                         ) {
                             ProfileIcon(
-                                text = user.fullName.first().toString(),
-                                background = user.profileBackground,
+                                text = organization.name.first().toString(),
+                                background = organization.profileBackground,
                                 size = ProfileIconSize.Large,
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = user.fullName,
+                                text = organization.name,
                                 style = MaterialTheme.typography.displaySmall,
                             )
-                            Text(text = "@${user.username}")
-                            InfoChip(text = if (user is Admin) "Admin" else "Officer")
                         }
                         Spacer(modifier = Modifier.height(16.dp))
-                        IconTextSelection(
-                            icon = Icons.Default.Badge,
-                            text = "Change username",
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        IconTextSelection(
-                            icon = Icons.Default.Password,
-                            text = "Change password",
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        IconTextSelection(
-                            icon = Icons.Default.Draw,
-                            text = "Change signature",
-                            onClick = { /*TODO*/ },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        UserWithRole(user = organization.adviser, role = "Adviser")
+                        for ((position, officer) in organization.officers.toMap()) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            UserWithRole(
+                                user = officer,
+                                role = when (position) {
+                                    OrganizationPosition.President -> "President"
+                                    OrganizationPosition.VicePresident -> "Vice President"
+                                    OrganizationPosition.Secretary -> "Secretary"
+                                    OrganizationPosition.Treasurer -> "Treasurer"
+                                    OrganizationPosition.Auditor -> "Auditor"
+                                    OrganizationPosition.PublicRelationsOfficer -> "P.R.O."
+                                },
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = "Edit Organization")
                     }
                 }
             }
@@ -101,8 +101,8 @@ fun UserScreen(
 
 @Preview
 @Composable
-fun UserScreenPreview() {
+fun OrganizationScreenPreview() {
     BudgetRequestsTheme {
-        UserScreen(user = SampleDataSource.herbErt, onClose = {})
+        OrganizationScreen(organization = SampleDataSource.honorsSociety, onClose = {})
     }
 }

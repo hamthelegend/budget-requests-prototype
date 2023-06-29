@@ -30,14 +30,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.EmptyDataSource
-import com.thebrownfoxx.budgetrequests.data.SampleDataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.EmptyDataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
+import com.thebrownfoxx.budgetrequests.ui.models.organization.Organization
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
+import com.thebrownfoxx.budgetrequests.ui.models.user.Officer
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
 import com.thebrownfoxx.budgetrequests.ui.screens.home.HomePageNavigator.option
 import com.thebrownfoxx.budgetrequests.ui.screens.home.budgetrequests.BudgetRequestsPage
 import com.thebrownfoxx.budgetrequests.ui.screens.home.createbutton.PrimaryButton
+import com.thebrownfoxx.budgetrequests.ui.screens.home.organizations.OrganizationsPage
 import com.thebrownfoxx.budgetrequests.ui.screens.home.search.SearchBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBar
 import com.thebrownfoxx.budgetrequests.ui.screens.home.sidebar.SideBarButton
@@ -50,11 +53,14 @@ import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
 @Composable
 fun HomeScreen(
     loggedInUser: User,
-    onNavigateToCreateRequest: () -> Unit,
+    onNavigateToCreateRequest: (loggedInOfficer: Officer) -> Unit,
     onLogout: () -> Unit,
-    onBudgetRequestClick: (BudgetRequest) -> Unit,
+    onBudgetRequestClick: (BudgetRequest, loggedInUser: User) -> Unit,
     onNavigateToAddUser: () -> Unit,
     onUserClick: (User) -> Unit,
+    onNavigateToAddOrganization: () -> Unit,
+    onOrganizationClick: (Organization) -> Unit,
+    onNavigateToCollegeAdmins: () -> Unit,
 ) {
     val dataSource = EmptyDataSource
 
@@ -67,7 +73,8 @@ fun HomeScreen(
             ) {
                 AnimatedVisibility(
                     visible = (option.homePage == HomePage.BudgetRequests && loggedInUser !is Admin) ||
-                            (option.homePage == HomePage.Users && loggedInUser is Admin),
+                            (option.homePage == HomePage.Users && loggedInUser is Admin && loggedInUser.isSuperAdmin) ||
+                            (option.homePage == HomePage.Organizations && loggedInUser is Admin && loggedInUser.isSuperAdmin),
                     modifier = Modifier.animateContentSize(),
                 ) {
                     Column {
@@ -76,16 +83,21 @@ fun HomeScreen(
                                 icon = when (targetHomePage) {
                                     HomePage.BudgetRequests -> Icons.Default.Create
                                     HomePage.Users -> Icons.Default.Add
+                                    HomePage.Organizations -> Icons.Default.Add
                                     else -> Icons.Default.Add
                                 },
                                 text = when (targetHomePage) {
                                     HomePage.BudgetRequests -> "Create Request"
                                     HomePage.Users -> "Add User"
+                                    HomePage.Organizations -> "Add Organization"
                                     else -> ""
                                 },
                                 onClick = when (targetHomePage) {
-                                    HomePage.BudgetRequests -> onNavigateToCreateRequest
+                                    HomePage.BudgetRequests -> {
+                                        { onNavigateToCreateRequest(loggedInUser as Officer) }
+                                    }
                                     HomePage.Users -> onNavigateToAddUser
+                                    HomePage.Organizations -> onNavigateToAddOrganization
                                     else -> {{}}
                                 },
                                 modifier = Modifier
@@ -155,13 +167,20 @@ fun HomeScreen(
                     when (targetPage) {
                         HomePage.BudgetRequests -> BudgetRequestsPage(
                             budgetRequests = dataSource.budgetRequests,
-                            onBudgetRequestClick = onBudgetRequestClick,
+                            onBudgetRequestClick = { onBudgetRequestClick(it, loggedInUser) },
                             paddingValues = paddingValues,
                         )
 
                         HomePage.Users -> UsersPage(
                             users = dataSource.users,
                             onUserClick = onUserClick,
+                            paddingValues = paddingValues,
+                            onNavigateToCollegeAdmins = onNavigateToCollegeAdmins,
+                        )
+
+                        HomePage.Organizations -> OrganizationsPage(
+                            organizations = dataSource.organizations,
+                            onOrganizationClick = onOrganizationClick,
                             paddingValues = paddingValues,
                         )
 
@@ -181,9 +200,12 @@ fun HomeScreenPreview() {
             loggedInUser = SampleDataSource.herbErt,
             onLogout = {},
             onNavigateToCreateRequest = {},
-            onBudgetRequestClick = {},
+            onBudgetRequestClick = { _, _ -> },
             onUserClick = {},
             onNavigateToAddUser = {},
+            onNavigateToAddOrganization = {},
+            onOrganizationClick = {},
+            onNavigateToCollegeAdmins = {},
         )
     }
 }

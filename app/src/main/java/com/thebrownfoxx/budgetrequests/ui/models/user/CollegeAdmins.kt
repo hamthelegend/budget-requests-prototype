@@ -1,4 +1,4 @@
-package com.thebrownfoxx.budgetrequests.ui.models.user.admin
+package com.thebrownfoxx.budgetrequests.ui.models.user
 
 data class CollegeAdmins(
     val assistantDean: Admin?,

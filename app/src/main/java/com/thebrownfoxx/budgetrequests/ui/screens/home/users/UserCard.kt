@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.dataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
+import com.thebrownfoxx.budgetrequests.ui.models.user.Admin
 import com.thebrownfoxx.budgetrequests.ui.models.user.User
-import com.thebrownfoxx.budgetrequests.ui.models.user.admin.Admin
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIcon
 import com.thebrownfoxx.budgetrequests.ui.shared.ProfileIconSize
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
@@ -61,6 +61,6 @@ fun UserCard(
 @Composable
 fun UserCardPreview() {
     BudgetRequestsTheme {
-        UserCard(user = dataSource.blyThe, onClick = {}, modifier = Modifier.fillMaxWidth())
+        UserCard(user = SampleDataSource.blyThe, onClick = {}, modifier = Modifier.fillMaxWidth())
     }
 }

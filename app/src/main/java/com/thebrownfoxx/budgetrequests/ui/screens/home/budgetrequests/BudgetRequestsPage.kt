@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.thebrownfoxx.budgetrequests.data.dataSource
+import com.thebrownfoxx.budgetrequests.data.datasource.SampleDataSource
 import com.thebrownfoxx.budgetrequests.ui.models.budgetrequest.BudgetRequest
 import com.thebrownfoxx.budgetrequests.ui.shared.IconText
 import com.thebrownfoxx.budgetrequests.ui.theme.BudgetRequestsTheme
@@ -47,6 +47,6 @@ fun BudgetRequestsPage(
 @Composable
 fun BudgetRequestsPagePreview() {
     BudgetRequestsTheme {
-        BudgetRequestsPage(budgetRequests = dataSource.budgetRequests, onBudgetRequestClick = {})
+        BudgetRequestsPage(budgetRequests = SampleDataSource.budgetRequests, onBudgetRequestClick = {})
     }
 }
